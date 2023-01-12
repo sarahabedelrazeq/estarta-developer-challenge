@@ -8,9 +8,10 @@ interface Props {
   id?: string;
   title?: string;
   description?: string;
+  links: Array<{ link: string; label: string }>;
 }
 
-export default function Main({ children, id, title, description }: Props) {
+export default function Main({ children, id, title, description, links }: Props) {
   return (
     <div id={id}>
       <Head>
@@ -21,9 +22,9 @@ export default function Main({ children, id, title, description }: Props) {
         />
       </Head>
       <div>
-        <Header/>
+        <Header links={links} title={title} />
         <main>{children}</main>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );
