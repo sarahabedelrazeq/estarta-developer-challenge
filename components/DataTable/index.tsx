@@ -1,5 +1,6 @@
 import React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Paper } from "@mui/material";
 
 const columns: GridColDef[] = [
   { field: "logId", headerName: "Log ID", width: 200 },
@@ -16,7 +17,7 @@ const columns: GridColDef[] = [
 
 export default function DataTable({ rows }: { rows?: Array<object> }) {
   return (
-    <div style={{ height: 631, width: "100%" }}>
+    <Paper style={{ height: 631, width: "100%" }}>
       <DataGrid
         rows={rows || []}
         columns={columns}
@@ -24,6 +25,6 @@ export default function DataTable({ rows }: { rows?: Array<object> }) {
         disableColumnMenu={true}
         getRowId={(item) => item.logId}
       />
-    </div>
+    </Paper>
   );
 }

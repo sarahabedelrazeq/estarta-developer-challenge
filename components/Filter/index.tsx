@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, FormControl, InputBase, InputLabel, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputBase,
+  InputLabel,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 
 const InputField = styled(InputBase)(({ theme }) => ({
@@ -49,9 +56,10 @@ interface Input {
 interface Props {
   inputs: Array<Input>;
   onChange: Function;
+  values: object;
 }
 
-export default function Filter({ inputs, onChange }: Props) {
+export default function Filter({ inputs, onChange, values }: Props) {
   return (
     <Stack direction="row" spacing={2}>
       {inputs.map(({ id, name, label, type }, index) => {
@@ -62,6 +70,7 @@ export default function Filter({ inputs, onChange }: Props) {
                 {label || ""}
               </InputLabel>
               <InputField
+                value={values[name] && values[name][0]}
                 onChange={(e) => onChange(name, e.target.value)}
                 id={id}
               />
@@ -74,6 +83,7 @@ export default function Filter({ inputs, onChange }: Props) {
                 {label || ""}
               </InputLabel>
               <InputField
+                value={values[name] && values[name][0]}
                 onChange={(e) => onChange(name, e.target.value)}
                 id={id}
               />

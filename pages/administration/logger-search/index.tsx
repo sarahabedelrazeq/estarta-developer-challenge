@@ -1,9 +1,11 @@
 import React from "react";
+import useUrlParams from "hooks/useUrlParams";
 import { Layouts, Filter, DataTable } from "components";
 
 export default function LoggerSearch({ data }: { data: Array<object> }) {
-  const [filterData, setFilterDate] = React.useState<object>({});
   const [rows, setRows] = React.useState<Array<object>>([]);
+  const { params, setParams } = useUrlParams();
+
   const inputs = React.useMemo(
     () => [
       { id: "employee-name", name: "userAgent", label: "Employee Name" },
@@ -21,11 +23,17 @@ export default function LoggerSearch({ data }: { data: Array<object> }) {
   );
 
   React.useEffect(() => {
-    if (Object.values(filterData).length > 0) {
+    if (Object.values(params).length > 0) {
       const rowsFilter = data.filter((item) => {
         let test = true;
-        for (const key in filterData) {
-          if (!(item[key] && item[key].includes(filterData[key]))) {
+        for (const key in params) {
+          if (
+            !(
+              item[key] &&
+              params[key]?.length > 0 &&
+              item[key].toLowerCase().includes(params[key][0].toLowerCase())
+            )
+          ) {
             test = false;
           }
         }
@@ -33,7 +41,7 @@ export default function LoggerSearch({ data }: { data: Array<object> }) {
       });
       setRows(rowsFilter);
     } else setRows(data);
-  }, [filterData, data]);
+  }, [data, params, setParams]);
 
   return (
     <Layouts.Main
@@ -47,8 +55,9 @@ export default function LoggerSearch({ data }: { data: Array<object> }) {
       <section style={{ marginBottom: "25px" }}>
         <Filter
           inputs={inputs}
+          values={params}
           onChange={(name: string, value: string) =>
-            setFilterDate((prev) => ({ ...prev, [name]: value }))
+            setParams({ ...params, [name]: value })
           }
         />
       </section>
