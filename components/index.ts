@@ -1,3 +1,5 @@
 import Layouts from "./Layouts";
+import Filter from "./Filter";
+import DataTable from "./DataTable";
 
-export { Layouts };
+export { Layouts, Filter, DataTable };
