@@ -1,6 +1,7 @@
 import React from "react";
 import useUrlParams from "hooks/useUrlParams";
 import { Layouts, Filter, DataTable } from "components";
+import moment from "moment";
 
 export default function LoggerSearch({ data }: { data: Array<object> }) {
   const [rows, setRows] = React.useState<Array<object>>([]);
@@ -26,7 +27,18 @@ export default function LoggerSearch({ data }: { data: Array<object> }) {
     if (Object.values(params).length > 0) {
       const rowsFilter = data.filter((item) => {
         let test = true;
+        console.log(
+          "moment :>> ",
+          moment(item.creationTimestamp).format("YYYY-MM-DD")
+        );
         for (const key in params) {
+          if (
+            key === "from-date" &&
+            params[key]?.length > 0 &&
+            moment(item.creationTimestamp).format() < moment(params[key][0]).format()
+          )
+            test = false;
+          // if(key === "to-date")
           if (
             !(
               item[key] &&
